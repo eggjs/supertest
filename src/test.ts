@@ -124,6 +124,58 @@ export class Test extends Request {
   }
 
   /**
+   * UnExpectations:
+   *
+   *   .unexpectHeader('Content-Type')
+   *   .unexpectHeader('Content-Type', fn)
+   */
+  unexpectHeader(name: string, fn?: CallbackFunction) {
+    if (typeof fn === 'function') {
+      this.end(fn);
+    }
+
+    // header
+    if (typeof name === 'string') {
+      this._asserts.push(this._unexpectHeader.bind(this, name));
+    }
+    return this;
+  }
+
+  /**
+   * Expectations:
+   *
+   *   .expectHeader('Content-Type')
+   *   .expectHeader('Content-Type', fn)
+   */
+  expectHeader(name: string, fn?: CallbackFunction) {
+    if (typeof fn === 'function') {
+      this.end(fn);
+    }
+
+    // header
+    if (typeof name === 'string') {
+      this._asserts.push(this._expectHeader.bind(this, name));
+    }
+    return this;
+  }
+
+  _unexpectHeader(name: string, res: Response) {
+    const actual = res.headers[name.toLowerCase()];
+    if (actual) {
+      return new AssertError('unexpected "' + name + '" header field, got "' + actual + '"',
+        name, actual,
+      );
+    }
+  }
+
+  _expectHeader(name: string, res: Response) {
+    const actual = res.headers[name.toLowerCase()];
+    if (!actual) {
+      return new AssertError('expected "' + name + '" header field', name, actual);
+    }
+  }
+
+  /**
    * Defer invoking superagent's `.end()` until
    * the server is listening.
    */

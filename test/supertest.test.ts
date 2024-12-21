@@ -360,6 +360,67 @@ describe('request(app)', function() {
     });
   });
 
+  describe('.expectHeader(name, fn)', function() {
+    it('should expect header exists', function(done) {
+      const app = express();
+
+      app.get('/', function(_req, res) {
+        res.setHeader('Foo-Bar', 'ok');
+        res.send('hey');
+      });
+
+      request(app)
+        .get('/')
+        .expect(200)
+        .expectHeader('Foo-Bar')
+        .expectHeader('content-type')
+        .end(done);
+    });
+
+    it('should expect header exists with callback', function(done) {
+      const app = express();
+
+      app.get('/', function(_req, res) {
+        res.setHeader('Foo-Bar', 'ok');
+        res.send('hey');
+      });
+
+      request(app)
+        .get('/')
+        .expect(200)
+        .expectHeader('Foo-Bar', done);
+    });
+  });
+
+  describe('.unexpectHeader(name, fn)', function() {
+    it('should expect header not exists', function(done) {
+      const app = express();
+
+      app.get('/', function(_req, res) {
+        res.send('hey');
+      });
+
+      request(app)
+        .get('/')
+        .expect(200)
+        .unexpectHeader('Foo-Bar')
+        .end(done);
+    });
+
+    it('should expect header not exists with callback', function(done) {
+      const app = express();
+
+      app.get('/', function(_req, res) {
+        res.send('hey');
+      });
+
+      request(app)
+        .get('/')
+        .expect(200)
+        .unexpectHeader('Foo-Bar', done);
+    });
+  });
+
   describe('.expect(status[, fn])', function() {
     it('should assert the response status', function(done) {
       const app = express();
