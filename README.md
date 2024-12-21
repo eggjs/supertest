@@ -1,12 +1,26 @@
-# [SuperTest](https://ladjs.github.io/superagent/)
+# @eggjs/supertest
 
+[![NPM version][npm-image]][npm-url]
 [![code coverage][coverage-badge]][coverage]
-[![Build Status][travis-badge]][travis]
-[![Dependencies][dependencies-badge]][dependencies]
-[![PRs Welcome][prs-badge]][prs]
+[![Node.js CI](https://github.com/eggjs/supertest/actions/workflows/nodejs.yml/badge.svg)](https://github.com/eggjs/supertest/actions/workflows/nodejs.yml)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
 [![MIT License][license-badge]][license]
+[![npm download][download-image]][download-url]
+[![Node.js Version](https://img.shields.io/node/v/@eggjs/mock.svg?style=flat)](https://nodejs.org/en/download/)
+
+[npm-image]: https://img.shields.io/npm/v/@eggjs/supertest.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/@eggjs/supertest
+[coverage-badge]: https://img.shields.io/codecov/c/github/eggjs/supertest.svg
+[coverage]: https://codecov.io/gh/eggjs/supertest
+[license-badge]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
+[license]: https://github.com/eggjs/supertest/blob/master/LICENSE
+[download-image]: https://img.shields.io/npm/dm/@eggjs/supertest.svg?style=flat-square
+[download-url]: https://npmjs.org/package/@eggjs/supertest
 
 > HTTP assertions made easy via [superagent](http://github.com/ladjs/superagent).  Maintained for [Forward Email](https://github.com/forwardemail) and [Lad](https://github.com/ladjs).
+> Forked for TypeScript friendly
+
+Document see [SuperTest](https://ladjs.github.io/superagent/)
 
 ## About
 
@@ -18,7 +32,7 @@ HTTP, while still allowing you to drop down to the [lower-level API](https://lad
 Install SuperTest as an npm module and save it to your package.json file as a development dependency:
 
 ```bash
-npm install supertest --save-dev
+npm install @eggjs/supertest --save-dev
 ```
 
   Once installed it can now be referenced by simply calling ```require('supertest');```
@@ -33,7 +47,7 @@ SuperTest works with any test framework, here is an example without using any
 test framework at all:
 
 ```js
-const request = require('supertest');
+const { request } = require('@eggjs/supertest');
 const express = require('express');
 
 const app = express();
@@ -55,7 +69,7 @@ request(app)
 To enable http2 protocol, simply append an options to `request` or `request.agent`:
 
 ```js
-const request = require('supertest');
+const { request } = require('@eggjs/supertest');
 const express = require('express');
 
 const app = express();
@@ -207,13 +221,13 @@ the same host you may simply re-assign the request variable with the
 initialization app or url, a new `Test` is created per `request.VERB()` call.
 
 ```js
-request = request('http://localhost:5555');
+t = request('http://localhost:5555');
 
-request.get('/').expect(200, function(err){
+t.get('/').expect(200, function(err){
   console.log(err);
 });
 
-request.get('/').expect('heya', function(err){
+t.get('/').expect('heya', function(err){
   console.log(err);
 });
 ```
@@ -221,7 +235,7 @@ request.get('/').expect('heya', function(err){
 Here's an example with mocha that shows how to persist a request and its cookies:
 
 ```js
-const request = require('supertest');
+const { agent } = require('@eggjs/supertest');
 const should = require('should');
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -240,16 +254,16 @@ describe('request.agent(app)', function() {
     else res.send(':(')
   });
 
-  const agent = request.agent(app);
+  const testAgent = agent(app);
 
   it('should save cookies', function(done) {
-    agent
+    testAgent
     .get('/')
     .expect('set-cookie', 'cookie=hey; Path=/', done);
   });
 
   it('should send cookies', function(done) {
-    agent
+    testAgent
     .get('/return')
     .expect('hey', done);
   });
@@ -324,15 +338,10 @@ Inspired by [api-easy](https://github.com/flatiron/api-easy) minus vows coupling
 
 ## License
 
-MIT
+[MIT](LICENSE)
 
-[coverage-badge]: https://img.shields.io/codecov/c/github/ladjs/supertest.svg
-[coverage]: https://codecov.io/gh/ladjs/supertest
-[travis-badge]: https://travis-ci.org/ladjs/supertest.svg?branch=master
-[travis]: https://travis-ci.org/ladjs/supertest
-[dependencies-badge]: https://david-dm.org/ladjs/supertest/status.svg
-[dependencies]: https://david-dm.org/ladjs/supertest
-[prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
-[prs]: http://makeapullrequest.com
-[license-badge]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
-[license]: https://github.com/ladjs/supertest/blob/master/LICENSE
+## Contributors
+
+[![Contributors](https://contrib.rocks/image?repo=eggjs/supertest)](https://github.com/eggjs/supertest/graphs/contributors)
+
+Made with [contributors-img](https://contrib.rocks).

@@ -22,3 +22,7 @@ coverage
 #      Files      #
 ###################
 *.log
+.tshy*
+.eslintcache
+dist
+coverage
