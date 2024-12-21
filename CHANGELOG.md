@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.1.0](https://github.com/eggjs/supertest/compare/v8.0.0...v8.1.0) (2024-12-21)
+
+
+### Features
+
+* expect header exists or not ([#2](https://github.com/eggjs/supertest/issues/2)) ([e5060b0](https://github.com/eggjs/supertest/commit/e5060b05c7d35830f9baa2e59324bf5ce446db27))
+
 ## [8.0.0](https://github.com/eggjs/supertest/compare/v7.0.0...v8.0.0) (2024-12-21)
 
 
