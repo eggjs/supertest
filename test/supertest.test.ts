@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { AddressInfo } from 'node:net';
+import { once } from 'node:events';
 import should from 'should';
 import express, { Express } from 'express';
 import bodyParser from 'body-parser';
@@ -37,6 +38,42 @@ describe('request(url)', function() {
         .get('/')
         .expect('hello', done);
     });
+  });
+
+  it('should promise style', function(done) {
+    const app = express();
+
+    app.get('/', function(_req, res) {
+      res.send('hello');
+    });
+
+    const server = app.listen(function() {
+      const url = 'http://localhost:' + (server.address() as AddressInfo).port;
+      request(url)
+        .get('/')
+        .expect('hello')
+        .then(() => done())
+        .catch(done);
+    });
+  });
+
+  it('should async await', async () => {
+    const app = express();
+
+    app.get('/', function(_req, res) {
+      res.send('hello async await');
+    });
+
+    const server = app.listen();
+    await once(server, 'listening');
+    const url = 'http://localhost:' + (server.address() as AddressInfo).port;
+    await request(url)
+      .get('/')
+      .expect('hello async await');
+
+    await request.agent(url)
+      .get('/')
+      .expect('hello async await');
   });
 
   describe('.end(cb)', function() {
