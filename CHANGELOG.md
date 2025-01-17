@@ -1,5 +1,12 @@
 # Changelog
 
+## [8.2.0](https://github.com/eggjs/supertest/compare/v8.1.1...v8.2.0) (2025-01-17)
+
+
+### Features
+
+* support trace method request ([#4](https://github.com/eggjs/supertest/issues/4)) ([1e3d92b](https://github.com/eggjs/supertest/commit/1e3d92bc194b2391e4be9bb0a38ed263255e8f46))
+
 ## [8.1.1](https://github.com/eggjs/supertest/compare/v8.1.0...v8.1.1) (2024-12-22)
 
 
