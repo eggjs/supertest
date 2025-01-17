@@ -83,6 +83,9 @@ export class TestAgent extends Agent {
   options(url: string) {
     return this._testRequest('options', url);
   }
+  trace(url: string) {
+    return this._testRequest('trace', url);
+  }
 }
 
 // allow keep use by `agent()`
