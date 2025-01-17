@@ -204,6 +204,18 @@ describe('request(app)', function() {
       .expect('Hello', done);
   });
 
+  it('should work on trace method', function(done) {
+    const app = express();
+
+    app.trace('/', function(_req, res) {
+      res.end('Hello');
+    });
+
+    request(app)
+      .trace('/')
+      .expect('Hello', done);
+  });
+
   it('should default redirects to 0', function(done) {
     const app = express();
 
@@ -1078,6 +1090,11 @@ describe('request.agent(app)', function() {
     res.send();
   });
 
+  app.trace('/', function(_req, res) {
+    res.cookie('cookie', 'hey');
+    res.send('trace method');
+  });
+
   app.get('/return_cookies', function(req, res) {
     if (req.cookies.cookie) res.send(req.cookies.cookie);
     else res.send(':(');
@@ -1104,6 +1121,12 @@ describe('request.agent(app)', function() {
     agent
       .get('/return_headers')
       .expect('hey', done);
+  });
+
+  it('should trace method work', function(done) {
+    agent
+      .trace('/')
+      .expect('trace method', done);
   });
 });
 
